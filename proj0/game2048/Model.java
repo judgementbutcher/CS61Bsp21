@@ -25,6 +25,9 @@ public class Model extends Observable {
     /** Largest piece value. */
     public static final int MAX_PIECE = 2048;
 
+    public static final int[] drow_arr = new int[]{1,0,-1,0};
+    public static final int[] dcolumn_arr = new int[]{0,1,0,-1};
+
     /** A new 2048 game on a board of size SIZE with no pieces
      *  and score 0. */
     public Model(int size) {
@@ -113,12 +116,66 @@ public class Model extends Observable {
         // TODO: Modify this.board (and perhaps this.score) to account
         // for the tilt to the Side SIDE. If the board changed, set the
         // changed local variable to true.
-
+        board.setViewingPerspective(side);
+        int len = board.size();
+        //这里是处理了所有的列
+        for (int c = 0; c < len; c++) {
+            if(processColumn(c)) {
+                changed = true;
+            }
+        }
+        board.setViewingPerspective(Side.NORTH);
         checkGameOver();
         if (changed) {
             setChanged();
         }
         return changed;
+    }
+
+    /** process every column
+     * 其实这里还可以用一个helper函数来得到每一个砖块要移动到的行数
+     * */
+    private boolean processColumn(int column) {
+        boolean flag = false;
+        boolean[] row_moved = {false,false,false,false};
+       for (int r = board.size() - 2; r >= 0;r--) {
+           Tile t = board.tile(column, r);
+           //如果当前砖块是空，直接不处理
+           if (t == null) continue;
+           int k = getMoveRow(column, r, row_moved);
+           if( k != r) {
+               flag = true;
+           }
+           //这里只能判断是否发生了合并
+           if (board.move(column, k, t)) {
+               this.score += t.value() * 2;
+           }
+       }
+       return flag;
+    }
+
+    /** 获取每一个砖块要移动到的行数
+     * */
+    private int getMoveRow(int column, int r, boolean[] row_moved) {
+       //应该首先处理上面砖块是空的情况
+       int k = r;
+       Tile t = board.tile(column, r);
+       //跳出时，k==board.size() - 1 或者 碰到非空块
+       while(k < board.size()-1 && board.tile(column,k+1) == null) {
+           k++;
+       }
+        //如果k == board.size(),说明此砖块的上面就全为空，直接移动到最上面
+       if(k == board.size() - 1) {
+           return k;
+       } else {
+           //如果此砖块的值和空之上的一块砖值相同，那么也移动到k+1行对应的砖块处，此时发生合并
+           if (t.value() == board.tile(column, k + 1).value() && ! row_moved[k + 1]) {
+               row_moved[k + 1] = true;
+               return k + 1;
+           } else { //这里也可能是不发生移动
+                   return k;
+           }
+       }
     }
 
     /** Checks if the game is over and sets the gameOver variable
@@ -138,6 +195,14 @@ public class Model extends Observable {
      * */
     public static boolean emptySpaceExists(Board b) {
         // TODO: Fill in this function.
+        int len = b.size();
+        for(int i = 0; i < len; i++) {
+            for(int j = 0; j < len; j++) {
+                if (b.tile(j,i) == null) {
+                   return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -148,6 +213,16 @@ public class Model extends Observable {
      */
     public static boolean maxTileExists(Board b) {
         // TODO: Fill in this function.
+        int len = b.size();
+        for(int i = 0; i < len; i++) {
+            for(int j = 0; j < len; j++) {
+                Tile t = b.tile(j,i);
+                if(t == null)continue;
+                if(t.value() == MAX_PIECE) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
@@ -158,7 +233,25 @@ public class Model extends Observable {
      * 2. There are two adjacent tiles with the same value.
      */
     public static boolean atLeastOneMoveExists(Board b) {
-        // TODO: Fill in this function.
+        // TODO: Fill in this functiono.
+        if (emptySpaceExists(b)) {
+            return true;
+        }
+        int len = b.size();
+        for(int i = 0; i < len; i++) {
+            for(int j = 0; j < len; j++) {
+                //没有空块，看块的上下左右能否合并
+                for(int k = 0; k < 4; k++) {
+                    int drow = i + drow_arr[k];
+                    int dcolumn = j + dcolumn_arr[k];
+                    if(drow >=0 && drow < len && dcolumn >=0 && dcolumn < len && b.tile(dcolumn,drow) != null) {
+                        if(b.tile(dcolumn,drow).value() == b.tile(j,i).value()) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
         return false;
     }
 
@@ -184,7 +277,7 @@ public class Model extends Observable {
     }
 
     @Override
-    /** Returns whether two models are equal. */
+    /** Returns whether two models are equal.*/
     public boolean equals(Object o) {
         if (o == null) {
             return false;
