@@ -64,6 +64,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
        }
        items[nextFirst] = item;
        nextFirst = increment(nextFirst);
+       size++;
     }
 
     public void addLast(T item) {
@@ -72,6 +73,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
         items[nextLast] = item;
         nextLast = increment(nextLast);
+        size++;
     }
 
     public boolean isEmpty() {
