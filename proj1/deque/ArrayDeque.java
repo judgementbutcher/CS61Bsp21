@@ -49,8 +49,8 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     private void resize(int capacity) {
         T [] newItems = (T[]) new Object[capacity];
-        for(int i = increment(nextFirst), j = 0; i != nextLast;
-            i = increment(i),j++) {
+        for(int i = increment(nextFirst), j = 0; j < size;
+                i = increment(i),j++) {
            newItems[j] = items[i];
         }
         items = newItems;
@@ -59,12 +59,18 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     public void addFirst(T item) {
+        if(size == items.length) {
+            resize(size * 2);
+        }
         items[nextFirst] = item;
         nextFirst = decrement(nextFirst);
         size++;
     }
 
     public void addLast(T item) {
+        if(size == items.length) {
+            resize(size * 2);
+        }
         items[nextLast] = item;
         nextLast = increment(nextLast);
         size++;
@@ -79,28 +85,38 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     public void printDeque() {
-        for(int i = decrement(nextFirst); i != nextLast;i = increment(i)) {
+        for(int i = increment(nextFirst),j = 0; j < size;i = increment(i),j++) {
             System.out.print(items[i] + " ");
         }
         System.out.println();
     }
 
     public T removeFirst() {
+        if(size < items.length / 4 && size > 15) {
+            resize(items.length / 4);
+        }
         if(size == 0) {
             return null;
         }
         nextFirst = increment(nextFirst);
+        T item = items[nextFirst];
+        items[nextFirst] = null;
         size--;
         return items[nextFirst];
     }
 
     public T removeLast() {
-      if(size == 0) {
-          return null;
-      }
-      nextLast = decrement(nextLast);
-      size--;
-      return items[nextLast];
+        if(size < items.length / 4 && size > 15) {
+            resize(items.length / 4);
+        }
+        if(size == 0) {
+            return null;
+        }
+        nextLast = decrement(nextLast);
+        T item = items[nextLast];
+        items[nextLast] = null;
+        size--;
+        return item;
     }
 
     public T get(int index) {

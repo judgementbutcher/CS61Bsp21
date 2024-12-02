@@ -3,6 +3,8 @@ package deque;
 import edu.princeton.cs.algs4.StdRandom;
 import org.junit.Test;
 
+import java.lang.reflect.Array;
+
 import static org.junit.Assert.assertEquals;
 
 public class ArrayDequeTest {
@@ -52,5 +54,13 @@ public class ArrayDequeTest {
 
             }
         }
+    }
+
+    @Test
+    public void oneElementTest() {
+        ArrayDeque<Integer> list = new ArrayDeque<>();
+        list.addLast(1);
+        int val = list.get(0);
+        assertEquals(1, val);
     }
 }
