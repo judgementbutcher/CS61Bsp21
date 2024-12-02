@@ -108,12 +108,10 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             return null;
         }
         int t_index = increment(nextFirst);
-        while(index > 0 && t_index != nextLast) {
+        //既然是下标，只要在size范围内就肯定能返回一个值
+        while(index > 0) {
             index--;
             t_index = increment(t_index);
-        }
-        if(t_index == nextLast) {
-            return null;
         }
         return items[t_index];
     }
