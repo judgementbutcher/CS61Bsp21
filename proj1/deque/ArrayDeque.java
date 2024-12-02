@@ -107,7 +107,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if(index < 0 || index >= size) {
             return null;
         }
-        int t_index = decrement(index);
+        int t_index = increment(nextFirst);
         while(index > 0 && t_index != nextLast) {
             index--;
             t_index = increment(t_index);
