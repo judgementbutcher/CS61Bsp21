@@ -59,18 +59,12 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     public void addFirst(T item) {
-       if(size == items.length) {
-            resize(size * 2);
-       }
-       items[nextFirst] = item;
-       nextFirst = increment(nextFirst);
-       size++;
+        items[nextFirst] = item;
+        nextFirst = decrement(nextFirst);
+        size++;
     }
 
     public void addLast(T item) {
-        if(size == items.length) {
-            resize(size * 2);
-        }
         items[nextLast] = item;
         nextLast = increment(nextLast);
         size++;
@@ -92,32 +86,32 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     }
 
     public T removeFirst() {
-        if((size < items.length / 4) && (size > 15)) {
-            resize(items.length / 2);
+        if(size == 0) {
+            return null;
         }
-        T value = items[increment(nextFirst)];
         nextFirst = increment(nextFirst);
         size--;
-        return value;
+        return items[nextFirst];
     }
 
     public T removeLast() {
-        if((size < items.length / 4) && (size > 15)) {
-            resize(items.length / 2);
-        }
-        T value = items[decrement(nextLast)];
-        nextLast = decrement(nextLast);
-        size--;
-        return value;
+      if(size == 0) {
+          return null;
+      }
+      nextLast = decrement(nextLast);
+      size--;
+      return items[nextLast];
     }
 
     public T get(int index) {
-        int t_index = increment(nextFirst);
-        while(t_index != nextLast && index > 0) {
-            t_index = increment(t_index);
-            index--;
+        if(index < 0 || index >= size) {
+            return null;
         }
-        //如果该index不合法，返回null
+        int t_index = decrement(index);
+        while(index > 0 && t_index != nextLast) {
+            index--;
+            t_index = increment(t_index);
+        }
         if(t_index == nextLast) {
             return null;
         }
