@@ -52,6 +52,7 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
         return get(sentinel.next, index);
     }
 
+
     /** 在callee中包含了越界的判断，所以这里只需要关注index的变化 */
     private T get(DeNode t, int index) {
        if (index == 0) {
@@ -60,7 +61,7 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
        return get(t.next, index);
     }
 
-
+    @Override
     public void addFirst(T item) {
         DeNode newNode = new DeNode(item);
         newNode.next = sentinel.next;
@@ -73,6 +74,7 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
         size++;
     }
 
+    @Override
     public void addLast(T item) {
         DeNode newNode = new DeNode(item);
         newNode.prev = sentinel.prev;
@@ -82,14 +84,17 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
         size++;
     }
 
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public void printDeque() {
         DeNode current = sentinel.next;
         while (current != sentinel) {
@@ -99,6 +104,7 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
         System.out.println();
     }
 
+    @Override
     public T removeFirst() {
         if (size == 0) {
             return null;
@@ -115,6 +121,7 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
         return item;
     }
 
+    @Override
     public T removeLast() {
         if (size == 0) {
             return null;
@@ -130,6 +137,7 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
         return item;
     }
 
+    @Override
     public T get(int index) {
         if (index < 0 || index >= size) {
             return null;
@@ -143,6 +151,7 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
     }
 
 
+    @Override
     public Iterator<T> iterator() {
         return new LinkedListIterator();
     }

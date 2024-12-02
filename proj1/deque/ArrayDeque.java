@@ -1,7 +1,5 @@
 package deque;
 
-import afu.org.checkerframework.checker.oigj.qual.O;
-
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {

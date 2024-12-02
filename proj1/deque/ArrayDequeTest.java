@@ -3,8 +3,6 @@ package deque;
 import edu.princeton.cs.algs4.StdRandom;
 import org.junit.Test;
 
-import java.lang.reflect.Array;
-
 import static org.junit.Assert.assertEquals;
 
 public class ArrayDequeTest {
@@ -52,15 +50,33 @@ public class ArrayDequeTest {
                     System.out.println("removeLast(): " + val);
                 }
 
+            } else if(operationNumber == 3) {
+                //removeFirst
+                int size = L.size();
+                if(size != 0) {
+                    int val = L.removeFirst();
+                    int val_t = tList.removeFirst();
+                    assertEquals(val, val_t);
+                    System.out.println("removeFirst(): " + val);
+                }
+            } else if(operationNumber == 4) {
+                //get
+                int size = L.size();
+                int randIndex = StdRandom.uniform(0, size);
+                if(size != 0) {
+                   int val = L.get(randIndex);
+                   int val_t = tList.get(randIndex);
+                   assertEquals(val, val_t);
+                   System.out.println("get: " + val);
+                }
+            } else if(operationNumber == 5) {
+                //addFirst
+                int randVal = StdRandom.uniform(0, 100);
+                L.addFirst(randVal);
+                tList.addFirst(randVal);
+                assertEquals(L.size(), tList.size());
+                System.out.println("addFirst(" + randVal + ")");
             }
         }
-    }
-
-    @Test
-    public void oneElementTest() {
-        ArrayDeque<Integer> list = new ArrayDeque<>();
-        list.addLast(1);
-        int val = list.get(0);
-        assertEquals(1, val);
     }
 }
