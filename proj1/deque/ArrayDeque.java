@@ -1,5 +1,7 @@
 package deque;
 
+import afu.org.checkerframework.checker.oigj.qual.O;
+
 import java.util.Iterator;
 
 public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
@@ -58,6 +60,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         nextLast = size;
     }
 
+    @Override
     public void addFirst(T item) {
         if(size == items.length) {
             resize(size * 2);
@@ -67,6 +70,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size++;
     }
 
+    @Override
     public void addLast(T item) {
         if(size == items.length) {
             resize(size * 2);
@@ -76,14 +80,17 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         size++;
     }
 
+    @Override
     public boolean isEmpty() {
         return size == 0;
     }
 
+    @Override
     public int size() {
         return size;
     }
 
+    @Override
     public void printDeque() {
         for(int i = increment(nextFirst),j = 0; j < size;i = increment(i),j++) {
             System.out.print(items[i] + " ");
@@ -91,6 +98,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         System.out.println();
     }
 
+    @Override
     public T removeFirst() {
         if(size < items.length / 4 && size > 15) {
             resize(items.length / 4);
@@ -102,9 +110,10 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         T item = items[nextFirst];
         items[nextFirst] = null;
         size--;
-        return items[nextFirst];
+        return item;
     }
 
+    @Override
     public T removeLast() {
         if(size < items.length / 4 && size > 15) {
             resize(items.length / 4);
@@ -119,6 +128,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         return item;
     }
 
+    @Override
     public T get(int index) {
         if(index < 0 || index >= size) {
             return null;
@@ -132,6 +142,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         return items[t_index];
     }
 
+    @Override
     public Iterator<T> iterator() {
         return new ArrayDequeIterator();
     }
