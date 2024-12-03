@@ -15,7 +15,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
             prev = null;
             next = null;
         }
-        public DeNode() {
+        DeNode() {
             prev = null;
             next = null;
         }
@@ -24,7 +24,7 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private class LinkedListIterator implements Iterator<T> {
         private int wizPos;
 
-        public LinkedListIterator() {
+        LinkedListIterator() {
             wizPos = 0;
         }
 
