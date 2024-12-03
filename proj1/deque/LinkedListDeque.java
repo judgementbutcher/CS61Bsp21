@@ -11,11 +11,13 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         private DeNode next;
 
         DeNode(T item) {
-             this.item = item;
-             prev = next = null;
+            this.item = item;
+            prev = null;
+            next = null;
         }
         public DeNode() {
-            prev = next = null;
+            prev = null;
+            next = null;
         }
     }
 
@@ -88,12 +90,12 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public void printDeque() {
-         DeNode current = sentinel.next;
-         while (current != sentinel) {
-             System.out.print(current.item + " ");
-             current = current.next;
-         }
-         System.out.println();
+        DeNode current = sentinel.next;
+        while (current != sentinel) {
+            System.out.print(current.item + " ");
+            current = current.next;
+        }
+        System.out.println();
     }
 
     @Override
@@ -137,8 +139,8 @@ public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
         //只要在size内，就一定能得到一个值
         DeNode current = sentinel.next;
         while (index > 0) {
-           current = current.next;
-           index--;
+            current = current.next;
+            index--;
         }
         return current.item;
     }

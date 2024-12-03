@@ -7,6 +7,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private T[] items;
     private int nextFirst;
     private int nextLast;
+    private final int LITTLE_SIZE = 15;
     public ArrayDeque() {
         size = 0;
         items = (T[]) new Object[8];
@@ -26,9 +27,9 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         }
 
         public T next() {
-           T value = items[current];
-           current = increment(current);
-           return value;
+            T value = items[current];
+            current = increment(current);
+            return value;
         }
     }
 
@@ -42,13 +43,13 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
     private int decrement(int index) {
         int len = items.length;
         if (index == 0) {
-           return len - 1;
+            return len - 1;
         }
         return index - 1;
     }
 
     private void resize(int capacity) {
-        T [] newItems = (T[]) new Object[capacity];
+        T[] newItems = (T[]) new Object[capacity];
         for (int i = increment(nextFirst), j = 0; j < size;
                 i = increment(i), j++) {
             newItems[j] = items[i];
@@ -93,7 +94,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public T removeFirst() {
-        if (size < items.length / 4 && size > 15) {
+        if (size < items.length / 4 && items.length > LITTLE_SIZE) {
             resize(items.length / 4);
         }
         if (size == 0) {
@@ -108,7 +109,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public T removeLast() {
-        if (size < items.length / 4 && size > 15) {
+        if (size < items.length / 4 && items.length > LITTLE_SIZE) {
             resize(items.length / 4);
         }
         if (size == 0) {
@@ -152,9 +153,13 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
             return false;
         }
         Deque<T> other = (Deque<T>) o;
-        if (other.size() != size) return false;
+        if (other.size() != size) {
+            return false;
+        }
         for (int i = 0; i < size; i++) {
-            if(!(get(i).equals(other.get(i)))) return false;
+            if (!(get(i).equals(other.get(i)))) {
+                return false;
+            }
         }
         return true;
     }
