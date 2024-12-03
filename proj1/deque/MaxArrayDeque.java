@@ -1,10 +1,9 @@
 package deque;
 
 import java.util.Comparator;
-import java.util.Iterator;
 
-public class MaxArrayDeque<T> extends ArrayDeque<T> implements Iterable<T> {
-    Comparator<T> comparator;
+public class MaxArrayDeque<T> extends ArrayDeque<T> {
+    private Comparator<T> comparator;
 
     /** creates a MaxArrayDeque with the given Comparator*/
     public MaxArrayDeque(Comparator<T> c) {
@@ -17,10 +16,10 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> implements Iterable<T> {
     public T max() {
         int len = size();
         int maxDex = 0;
-        for(int i = 0;i < len;i++) {
-           if(comparator.compare(get(maxDex), get(i)) < 0) {
-                maxDex = i;
-           }
+        for (int i = 0; i < len; i++) {
+            if (comparator.compare(get(maxDex), get(i)) < 0) {
+                 maxDex = i;
+            }
         }
         return get(maxDex);
     }
@@ -30,8 +29,8 @@ public class MaxArrayDeque<T> extends ArrayDeque<T> implements Iterable<T> {
     public T max(Comparator<T> c) {
         int len = size();
         int maxDex = 0;
-        for(int i = 0;i < len;i++) {
-            if(c.compare(get(maxDex), get(i)) < 0) {
+        for (int i = 0; i < len; i++) {
+            if (c.compare(get(maxDex), get(i)) < 0) {
                 maxDex = i;
             }
         }

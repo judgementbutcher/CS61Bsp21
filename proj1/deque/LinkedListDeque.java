@@ -1,16 +1,16 @@
 package deque;
 import java.util.Iterator;
 
-public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
+public class LinkedListDeque<T> implements Deque<T>, Iterable<T> {
     private int size;
     private DeNode sentinel;
 
     private class DeNode {
-        public DeNode prev;
-        public T item;
-        public DeNode next;
+        private DeNode prev;
+        private T item;
+        private DeNode next;
 
-        public DeNode(T item) {
+        DeNode(T item) {
              this.item = item;
              prev = next = null;
         }
@@ -19,7 +19,7 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
         }
     }
 
-    private class LinkedListIterator implements Iterator<T>{
+    private class LinkedListIterator implements Iterator<T> {
         private int wizPos;
 
         public LinkedListIterator() {
@@ -31,18 +31,18 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
         }
 
         public T next() {
-           T returnItem = get(wizPos);
-           wizPos += 1;
-           return returnItem;
+            T returnItem = get(wizPos);
+            wizPos += 1;
+            return returnItem;
         }
     }
 
 
     public LinkedListDeque() {
-         sentinel = new DeNode();
-         sentinel.prev = sentinel;
-         sentinel.next = sentinel;
-         size = 0;
+        sentinel = new DeNode();
+        sentinel.prev = sentinel;
+        sentinel.next = sentinel;
+        size = 0;
     }
 
     public T getRecursive(int index) {
@@ -55,10 +55,10 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
 
     /** 在callee中包含了越界的判断，所以这里只需要关注index的变化 */
     private T get(DeNode t, int index) {
-       if (index == 0) {
-           return t.item;
-       }
-       return get(t.next, index - 1);
+        if (index == 0) {
+            return t.item;
+        }
+        return get(t.next, index - 1);
     }
 
     @Override
@@ -88,12 +88,12 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
 
     @Override
     public void printDeque() {
-        DeNode current = sentinel.next;
-        while (current != sentinel) {
-            System.out.print(current.item + " ");
-            current = current.next;
-        }
-        System.out.println();
+         DeNode current = sentinel.next;
+         while (current != sentinel) {
+             System.out.print(current.item + " ");
+             current = current.next;
+         }
+         System.out.println();
     }
 
     @Override
@@ -151,12 +151,14 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
+        if (this == o) {
+            return true;
+        }
         if (o == null) {
             return false;
         }
         //判断o是否是一个Deque
-        if(!(o instanceof Deque)) {
+        if (!(o instanceof Deque)) {
             return false;
         }
         //下面开始比较内容
@@ -164,8 +166,8 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
         if (other.size() != this.size()) {
             return false;
         }
-        for(int i = 0;i < this.size();i++) {
-            if(!this.get(i).equals(other.get(i))) {
+        for (int i = 0; i < this.size(); i++) {
+            if (!this.get(i).equals(other.get(i))) {
                 return false;
             }
         }
