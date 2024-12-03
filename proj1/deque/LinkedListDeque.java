@@ -58,7 +58,7 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
        if (index == 0) {
            return t.item;
        }
-       return get(t.next, index);
+       return get(t.next, index - 1);
     }
 
     @Override
@@ -66,11 +66,8 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
         DeNode newNode = new DeNode(item);
         newNode.next = sentinel.next;
         newNode.prev = sentinel;
+        sentinel.next.prev = newNode;
         sentinel.next = newNode;
-        //这里说明是加入第一个节点
-        if (sentinel.prev == sentinel) {
-            sentinel.prev = newNode;
-        }
         size++;
     }
 
@@ -82,11 +79,6 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
         sentinel.prev = newNode;
         newNode.next = sentinel;
         size++;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     @Override
@@ -142,8 +134,9 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
         if (index < 0 || index >= size) {
             return null;
         }
+        //只要在size内，就一定能得到一个值
         DeNode current = sentinel.next;
-        while (current != sentinel && index > 0) {
+        while (index > 0) {
            current = current.next;
            index--;
         }
@@ -172,7 +165,7 @@ public class LinkedListDeque<T> implements Deque<T> , Iterable<T>{
             return false;
         }
         for(int i = 0;i < this.size();i++) {
-            if(this.get(i) != other.get(i)) {
+            if(!this.get(i).equals(other.get(i))) {
                 return false;
             }
         }

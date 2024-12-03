@@ -49,7 +49,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     private void resize(int capacity) {
         T [] newItems = (T[]) new Object[capacity];
-        for(int i = increment(nextFirst), j = 0; j < size;
+        for (int i = increment(nextFirst), j = 0; j < size;
                 i = increment(i),j++) {
            newItems[j] = items[i];
         }
@@ -60,7 +60,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public void addFirst(T item) {
-        if(size == items.length) {
+        if (size == items.length) {
             resize(size * 2);
         }
         items[nextFirst] = item;
@@ -70,17 +70,12 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public void addLast(T item) {
-        if(size == items.length) {
+        if (size == items.length) {
             resize(size * 2);
         }
         items[nextLast] = item;
         nextLast = increment(nextLast);
         size++;
-    }
-
-    @Override
-    public boolean isEmpty() {
-        return size == 0;
     }
 
     @Override
@@ -90,7 +85,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public void printDeque() {
-        for(int i = increment(nextFirst),j = 0; j < size;i = increment(i),j++) {
+        for (int i = increment(nextFirst),j = 0; j < size;i = increment(i),j++) {
             System.out.print(items[i] + " ");
         }
         System.out.println();
@@ -98,7 +93,7 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public T removeFirst() {
-        if(size < items.length / 4 && size > 15) {
+        if (size < items.length / 4 && size > 15) {
             resize(items.length / 4);
         }
         if(size == 0) {
@@ -113,10 +108,10 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public T removeLast() {
-        if(size < items.length / 4 && size > 15) {
+        if (size < items.length / 4 && size > 15) {
             resize(items.length / 4);
         }
-        if(size == 0) {
+        if (size == 0) {
             return null;
         }
         nextLast = decrement(nextLast);
@@ -128,12 +123,12 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
 
     @Override
     public T get(int index) {
-        if(index < 0 || index >= size) {
+        if (index < 0 || index >= size) {
             return null;
         }
         int t_index = increment(nextFirst);
         //既然是下标，只要在size范围内就肯定能返回一个值
-        while(index > 0) {
+        while (index > 0) {
             index--;
             t_index = increment(t_index);
         }
@@ -151,11 +146,13 @@ public class ArrayDeque<T> implements Deque<T>, Iterable<T> {
         if (o == null) return false;
         if (!(o instanceof Deque)) return false;
         Deque<T> other = (Deque<T>) o;
-        if(other.size() != size) return false;
-        for(int i = 0; i < this.size();i++) {
-            if(this.get(i) != other.get(i)) {
-                return false;
-            }
+        if (other.size() != size) return false;
+        Iterator<T> it1 = iterator();
+        Iterator<T> it2 = other.iterator();
+        while (it1.hasNext()) {
+            T e1 = it1.next();
+            T e2 = it2.next();
+            if (!e1.equals(e2)) return false;
         }
         return true;
     }

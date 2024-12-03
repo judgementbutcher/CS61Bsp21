@@ -1,5 +1,6 @@
 package deque;
 
+import edu.princeton.cs.algs4.StdRandom;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -118,5 +119,65 @@ public class LinkedListDequeTest {
             assertEquals("Should have the same value", i, (double) lld1.removeLast(), 0.0);
         }
 
+    }
+
+    @Test
+    public void randomizedTest() {
+        ArrayDeque<Integer> L = new ArrayDeque<>();
+        LinkedListDeque<Integer> tList = new LinkedListDeque<>();
+        int N = 5000;
+        for (int i = 0; i < N; i += 1) {
+            int operationNumber = StdRandom.uniform(0, 3);
+            if (operationNumber == 0) {
+                // addLast
+                int randVal = StdRandom.uniform(0, 100);
+                L.addLast(randVal);
+                tList.addLast(randVal);
+                assertEquals(L.size(), tList.size());
+                System.out.println("addLast(" + randVal + ")");
+            } else if (operationNumber == 1) {
+                // size
+                int size = L.size();
+                int size_t = tList.size();
+                assertEquals(size, size_t);
+                System.out.println("size: " + size);
+            } else if(operationNumber == 2) {
+                //removeLast
+                int size = L.size();
+                if (size != 0) {
+                    int val = L.removeLast();
+                    int val_t = tList.removeLast();
+                    assertEquals(val, val_t);
+                    System.out.println("removeLast(): " + val);
+                }
+
+            } else if(operationNumber == 3) {
+                //removeFirst
+                int size = L.size();
+                if(size != 0) {
+                    int val = L.removeFirst();
+                    int val_t = tList.removeFirst();
+                    assertEquals(val, val_t);
+                    System.out.println("removeFirst(): " + val);
+                }
+            } else if(operationNumber == 4) {
+                //get
+                int size = L.size();
+                int randIndex = StdRandom.uniform(0, size);
+                if(size != 0) {
+                    int val = L.get(randIndex);
+                    int val_t = tList.get(randIndex);
+                    assertEquals(val, val_t);
+                    System.out.println("get: " + val);
+                }
+            } else if(operationNumber == 5) {
+                //addFirst
+                int randVal = StdRandom.uniform(0, 100);
+                L.addFirst(randVal);
+                tList.addFirst(randVal);
+                assertEquals(L.size(), tList.size());
+                System.out.println("addFirst(" + randVal + ")");
+            }
+        }
     }
 }
