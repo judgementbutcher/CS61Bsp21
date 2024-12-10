@@ -1,0 +1,44 @@
+when the string length is 4
+and the number of strings is 4000
+
+the time is:
+class bstmap.BSTMap: 0.01 sec
+Java's Built-in TreeMap: 0.02 sec
+Java's Built-in HashMap: 0.01 sec
+
+160000:
+class bstmap.BSTMap: 0.07 sec
+Java's Built-in TreeMap: 0.06 sec
+Java's Built-in HashMap: 0.03 sec
+
+320000:
+class bstmap.BSTMap: 0.17 sec
+Java's Built-in TreeMap: 0.18 sec
+Java's Built-in HashMap: 0.05 sec
+
+640000:
+class bstmap.BSTMap: 0.43 sec
+Java's Built-in TreeMap: 0.42 sec
+Java's Built-in HashMap: 0.12 sec
+
+根据提供的数据，我们可以总结出以下时间复杂度的变化趋势：
+
+BSTMap（基于二叉搜索树的Map实现）：
+
+当字符串长度为4且数量为4000时，BSTMap的时间为0.01秒。
+当字符串长度增加，数量为160000时，BSTMap的时间为0.07秒。
+当数量进一步增加到320000时，BSTMap的时间为0.17秒。
+最后，当数量增加到640000时，BSTMap的时间为0.43秒。
+这些数据表明BSTMap的时间随着数据量的增加而增加，且增加的速率不是线性的，而是随着数据量的增加而加速增加，这符合二叉搜索树的时间复杂度特性，即在最坏情况下为O(n log n)，但在平均情况下接近O(log n)
+。
+Java的Built-in TreeMap：
+
+TreeMap基于红黑树（一种自平衡二叉查找树）实现，时间复杂度平均能达到O(log n)
+。从数据来看，随着数据量的增加，TreeMap的时间也在增加，但是增加的速率相对平稳，这与O(log n)的时间复杂度特性相符。
+具体数据上，当字符串长度为4且数量为4000时，TreeMap的时间为0.02秒；数量为160000时为0.06秒；数量为320000时为0.18秒；数量为640000时为0.42秒。
+Java的Built-in HashMap：
+
+HashMap基于散列表实现，时间复杂度平均能达到O(1)
+。从数据来看，HashMap在所有情况下都保持了相对较低的时间消耗，这表明在理想情况下，HashMap的性能非常接近常数时间复杂度。
+具体数据上，当字符串长度为4且数量为4000时，HashMap的时间为0.01秒；数量为160000时为0.03秒；数量为320000时为0.05秒；数量为640000时为0.12秒。
+综上所述，随着数据量的增加，BSTMap和TreeMap的时间消耗都在增加，但是BSTMap的增加速率更快，而HashMap则保持了较低且相对稳定的时间消耗。这与它们各自的时间复杂度特性相符合：BSTMap和TreeMap接近O(log n)，而HashMap接近O(1)。
